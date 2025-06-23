@@ -11,13 +11,18 @@
     <script>
       function filterUsers() {
         let input = document.getElementById("search").value.toLowerCase();
-        let rows = document.querySelectorAll("tbody tr");
+        let rows = document.querySelectorAll(".list-user .list-item");
         rows.forEach((row) => {
           let name = row.querySelector(".name").textContent.toLowerCase();
           let email = row.querySelector(".email").textContent.toLowerCase();
           let country = row.querySelector(".country").textContent.toLowerCase();
-          row.style.display =
-            name.includes(input) || email.includes(input) || country.includes(input) ? "" : "none";
+          const isMatch =
+            name.includes(input) ||
+            email.includes(input) ||
+            country.includes(input);
+          isMatch
+            ? row.classList.remove("d-none")
+            : row.classList.add("d-none");
         });
       }
     </script>
@@ -32,40 +37,30 @@
       class="form-control mb-3"
     />
 
-      <div class="d-flex flex-column  mb-3 border border-bottom-0 rounded">
-        <div class="d-flex flex-row align-items-center justify-content-around border-bottom fw-bold p-2 bg-light ">
-            <div>Name</div>
-            <div>Email</div>
-            <div>Country</div>
-        </div>
+    <div class="d-flex flex-column mb-3 border border-bottom-0 rounded">
+      <div
+        class="d-flex flex-row align-items-center justify-content-around border-bottom fw-bold p-2 bg-light"
+      >
+        <div>Name</div>
+        <div>Email</div>
+        <div>Country</div>
+      </div>
+      <div class="list-user">
         {% for list in data %}
-            <div class="d-flex flex-row align-items-center justify-content-around  border-bottom p-2">
-                <div class="name w-25 text-center">{{ list.name.first }} {{ list.name.last }}</div>
-                <div class="email w-25 text-center">{{ list.email }}</div>
-                <div class="country w-25 text-center">{{ list.location.country }}</div>
-            </div>
+        <div
+          class="d-flex list-item flex-row align-items-center justify-content-around border-bottom p-2"
+        >
+          <div class="name w-25 text-center">
+            {{ list.name.first }} {{ list.name.last }}
+          </div>
+          <div class="email w-25 text-center">{{ list.email }}</div>
+          <div class="country w-25 text-center">
+            {{ list.location.country }}
+          </div>
+        </div>
         {% endfor %}
       </div>
+    </div>
 
-  
-    <!--
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Country</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for list in data %}
-        <tr>
-          <td class="name">{{ list.name.first }} {{ list.name.last }}</td>
-          <td class="email">{{ list.email }}</td>
-          <td class="country">{{ list.location.country }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table> -->
   </body>
 </html>
